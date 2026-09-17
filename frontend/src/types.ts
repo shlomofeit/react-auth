@@ -10,3 +10,10 @@ export interface SignupData {
   email: string;
   password: string;
 }
+
+export interface UserStore {
+  user: User | null;
+  token: string;
+  setToken: (user: User, token: string) => void;
+  clearToken: () => void;
+}
