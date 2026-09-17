@@ -1,6 +1,10 @@
 import type { User } from "../types";
 
-const Profile = (user: User) => {
+interface ProfileProps {
+  user: User;
+}
+
+const Profile = ({ user }: ProfileProps) => {
   return (
     <div>
       <h2>Profile</h2>
