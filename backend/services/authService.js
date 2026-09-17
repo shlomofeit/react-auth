@@ -2,13 +2,14 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { getDb } from "../config/db.js";
 
-const getCollection = async () => {
-  const db = await getDb();
-  return db.collection("users");
-};
+const db = await getDb();
+const collection = await db.collection("users");
+// const getCollection = async () => {
+//   return db.collection("users");
+// };
 
 export async function register({ username, email, password, role = "user" }) {
-  const collection = await getCollection();
+  //   const collection = await getCollection();
   const cleanEmail = email.toLowerCase().trim();
 
   const existUser = await collection.findOne({ email: cleanEmail });
@@ -27,7 +28,7 @@ export async function register({ username, email, password, role = "user" }) {
 }
 
 export async function login({ email, password }) {
-  const collection = await getCollection();
+  //   const collection = await getCollection();
   const cleanEmail = email.toLowerCase().trim();
 
   const user = await collection.findOne({ email: cleanEmail });
