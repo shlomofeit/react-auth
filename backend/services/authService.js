@@ -1,15 +1,12 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import "dotenv/config";
 import { getDb } from "../config/db.js";
 
 const db = await getDb();
 const collection = await db.collection("users");
-// const getCollection = async () => {
-//   return db.collection("users");
-// };
 
 export async function register({ username, email, password, role = "user" }) {
-  //   const collection = await getCollection();
   const cleanEmail = email.toLowerCase().trim();
 
   const existUser = await collection.findOne({ email: cleanEmail });
@@ -24,11 +21,19 @@ export async function register({ username, email, password, role = "user" }) {
     password: hashPassword,
     role,
   });
-  return result.insertedId.toString();
+
+  const payload = {
+    id: result.insertedId.toString(),
+    username: username,
+    email: email,
+    role: user,
+  };
+
+  const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1h" });
+  return token;
 }
 
 export async function login({ email, password }) {
-  //   const collection = await getCollection();
   const cleanEmail = email.toLowerCase().trim();
 
   const user = await collection.findOne({ email: cleanEmail });
