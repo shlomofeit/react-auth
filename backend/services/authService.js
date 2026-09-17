@@ -26,7 +26,7 @@ export async function register({ username, email, password, role = "user" }) {
     id: result.insertedId.toString(),
     username: username,
     email: email,
-    role: user,
+    role,
   };
 
   const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1h" });
