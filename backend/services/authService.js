@@ -43,6 +43,7 @@ export async function login({ email, password }) {
   const payload = {
     id: user._id.toString(),
     username: user.username,
+    email: cleanEmail,
     role: user.role,
   };
 
