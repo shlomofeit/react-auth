@@ -6,13 +6,13 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signup } = useAuth();
-  const nav = useNavigate();
+  const { signup, loading, error } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const ok = await signup({ username, email, password });
-    if (ok) nav("/profile");
+    if (ok) navigate("/profile");
   };
 
   return (
@@ -23,6 +23,7 @@ const Signup = () => {
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         placeholder="Enter username..."
+        required
       />
       <label>email:</label>
       <input
@@ -30,6 +31,7 @@ const Signup = () => {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Enter email..."
+        required
       />
       <label>password:</label>
       <input
@@ -37,8 +39,12 @@ const Signup = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Enter password..."
+        required
       />
-      <button type="submit" className="submit-btn"></button>
+      {error && <p>{error}</p>}
+      <button type="submit" disabled={loading}>
+        {loading ? "Loading..." : "Sign up"}
+      </button>
     </form>
   );
 };
