@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { SignupData } from "../types";
+import type { SignupData, User } from "../types";
 
 const BASE_URL = "http://localhost:3000";
 
@@ -10,7 +10,14 @@ export const signupRequest = async (user: SignupData) => {
 
 export const loginRequest = async (email: string, password: string) => {
   const { data } = await axios.post(`${BASE_URL}/login`, { email, password });
-  return data;
+  return data as { token: string };
+};
+
+export const getProfileRequest = async (token: string) => {
+  const { data } = await axios.get(`${BASE_URL}/profile`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return data as { user: User };
 };
 
 export const logoutRequest = async () => {
