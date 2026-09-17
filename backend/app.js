@@ -15,8 +15,8 @@ app.use("/", router);
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;
-  const message = status < 500 ? err.message : "Internal Server Error";
-  res.status(status).json({ error: message });
+  //   const message = status < 500 ? err.message : "Internal Server Error";
+  res.status(status).json({ error: err.message });
 });
 
 app.listen(PORT, () => {
